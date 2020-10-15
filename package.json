@@ -1,5 +1,24 @@
 {
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gatsby develop"
+  },
+  "eslintConfig": {
+    "extends": "@trevorblades/eslint-config/react"
+  },
+  "devDependencies": {
+    "@trevorblades/eslint-config": "^7.2.1",
+    "eslint": "^7.11.0"
+  },
+  "dependencies": {
+    "@chakra-ui/core": "^1.0.0-rc.5",
+    "@jlengstorf/get-share-image": "^0.7.1",
+    "gatsby": "^2.24.77",
+    "gatsby-plugin-chakra-ui": "^0.1.4",
+    "gatsby-plugin-react-helmet": "^3.3.14",
+    "prop-types": "^15.7.2",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^3.11.0"
   }
 }
