@@ -6,6 +6,18 @@ module.exports = {
       options: {
         isUsingColorMode: false
       }
+    },
+    {
+      resolve: 'gatsby-source-apiserver',
+      options: {
+        url: 'https://www.googleapis.com/webfonts/v1/webfonts',
+        params: {
+          sort: 'popularity',
+          key: process.env.GOOGLE_API_KEY
+        },
+        name: 'webfont',
+        entityLevel: 'items'
+      }
     }
   ]
 };
