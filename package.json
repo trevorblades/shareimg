@@ -16,9 +16,11 @@
     "gatsby-plugin-chakra-ui": "^1.0.0-rc.5",
     "gatsby-plugin-react-helmet": "^3.3.14",
     "gatsby-source-apiserver": "^2.1.7",
+    "outdent": "^0.7.1",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "react-syntax-highlighter": "^15.2.1"
   }
 }
