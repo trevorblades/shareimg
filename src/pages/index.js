@@ -54,7 +54,7 @@ export default function App() {
       <Helmet title="shareimg">
         <link
           rel="icon"
-          href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/sandwich_1f96a.png"
+          href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/taco_1f32e.png"
         />
       </Helmet>
       <Grid
@@ -71,6 +71,7 @@ export default function App() {
             <IconButton
               as="a"
               href="https://github.com/trevorblades/shareimg"
+              target="_blank"
               icon={<FaGithub />}
               position="absolute"
               bottom="3"
@@ -129,7 +130,7 @@ export default function App() {
             borderBottomRadius="lg"
           >
             <Button
-              leftIcon={<span>🖼</span>}
+              leftIcon={<span>🌮</span>}
               borderRadius="lg"
               borderTopRadius="0"
               colorScheme={preview ? 'purple' : 'gray'}
