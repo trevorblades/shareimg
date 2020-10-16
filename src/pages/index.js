@@ -1,19 +1,17 @@
+import CodeSample from '../components/CodeSample';
 import React, {useState} from 'react';
 import SettingsGroup from '../components/SettingsGroup';
 import TextBox from '../components/TextBox';
 import TextSettings from '../components/TextSettings';
-import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
-import nightOwl from 'react-syntax-highlighter/dist/esm/styles/hljs/night-owl';
 import {
   Box,
   Button,
   ButtonGroup,
   Center,
   DarkMode,
-  FormControl,
-  FormLabel,
   Grid,
   HStack,
+  IconButton,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -23,14 +21,12 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
-  Stack
+  Stack,
+  Tooltip
 } from '@chakra-ui/core';
 import {DEFAULT_OPTIONS} from '../utils';
+import {FaGithub} from 'react-icons/fa';
 import {Helmet} from 'react-helmet';
-import {Light as SyntaxHighlighter} from 'react-syntax-highlighter';
-import {outdent} from 'outdent';
-
-SyntaxHighlighter.registerLanguage('javascript', js);
 
 export default function App() {
   const [preview, setPreview] = useState(true);
@@ -64,13 +60,26 @@ export default function App() {
       <Grid
         h="100vh"
         bg="black"
-        color="gray.100"
+        color="gray.50"
         templateColumns={{
           md: '2fr 1fr',
           lg: '3fr 1fr'
         }}
       >
         <Center position="relative" overflow="hidden">
+          <Tooltip label="View on GitHub" placement="right">
+            <IconButton
+              as="a"
+              href="https://github.com/trevorblades/shareimg"
+              icon={<FaGithub />}
+              position="absolute"
+              bottom="3"
+              left="3"
+              fontSize="3xl"
+              borderRadius="full"
+              variant="ghost"
+            />
+          </Tooltip>
           {preview ? (
             <Box
               bg="white"
@@ -108,17 +117,7 @@ export default function App() {
               </TextBox>
             </Box>
           ) : (
-            <SyntaxHighlighter language="javascript" style={nightOwl}>
-              {outdent`
-                  import getShareImage from '@jlengstorf/get-share-image';
-
-                  const shareImage = getShareImage({
-                    title: "YOUR TITLE HERE",
-                    tagline: "YOUR TAGLINE HERE",
-                    titleFont: ${JSON.stringify(state.titleFont)}
-                  });
-                `}
-            </SyntaxHighlighter>
+            <CodeSample state={state} />
           )}
           <ButtonGroup
             isAttached
@@ -126,14 +125,14 @@ export default function App() {
             top="0"
             left="50%"
             transform="translateX(-50%)"
-            bg="gray.800"
+            bg="gray.900"
             borderBottomRadius="lg"
           >
             <Button
               leftIcon={<span>🖼</span>}
               borderRadius="lg"
               borderTopRadius="0"
-              colorScheme={preview ? 'blue' : 'gray'}
+              colorScheme={preview ? 'purple' : 'gray'}
               onClick={() => setPreview(true)}
             >
               Preview
@@ -142,7 +141,7 @@ export default function App() {
               leftIcon={<span>💻</span>}
               borderRadius="lg"
               borderTopRadius="0"
-              colorScheme={!preview ? 'blue' : 'gray'}
+              colorScheme={!preview ? 'purple' : 'gray'}
               onClick={() => setPreview(false)}
             >
               Code
@@ -155,7 +154,7 @@ export default function App() {
           p="4"
           spacing="8"
           overflow="auto"
-          bg="gray.800"
+          bg="gray.900"
         >
           <SettingsGroup label="Title">
             <TextSettings
@@ -211,7 +210,7 @@ export default function App() {
               </HStack>
             </HStack>
           </SettingsGroup>
-          <SettingsGroup label="Text padding">
+          <SettingsGroup label="Text layout">
             <HStack spacing="4">
               <HStack as="label">
                 <span>Left</span>
@@ -246,39 +245,58 @@ export default function App() {
                 </NumberInput>
               </HStack>
             </HStack>
+            <HStack>
+              <span>Y</span>
+              <Slider
+                colorScheme="purple"
+                focusThumbOnChange={false}
+                min={0}
+                max={1}
+                step={0.01}
+                value={state.textY}
+                onChange={textY =>
+                  setState(prevState => ({...prevState, textY}))
+                }
+              >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+              </Slider>
+              <NumberInput
+                size="sm"
+                value={Math.round(state.textY * 100)}
+                onChange={(string, number) =>
+                  setState(prevState => ({
+                    ...prevState,
+                    textY: number / 100
+                  }))
+                }
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </HStack>
+            <HStack as="label">
+              <span>Spacing</span>
+              <NumberInput
+                size="sm"
+                value={state.textSpacing}
+                onChange={(string, textSpacing) =>
+                  setState(prevState => ({...prevState, textSpacing}))
+                }
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </HStack>
           </SettingsGroup>
-          <FormControl>
-            <FormLabel>
-              Text Y position: {Math.round(state.textY * 100)} %
-            </FormLabel>
-            <Slider
-              min={0}
-              max={1}
-              step={0.01}
-              value={state.textY}
-              onChange={textY => setState(prevState => ({...prevState, textY}))}
-            >
-              <SliderTrack>
-                <SliderFilledTrack />
-              </SliderTrack>
-              <SliderThumb />
-            </Slider>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Text spacing</FormLabel>
-            <NumberInput
-              value={state.textSpacing}
-              onChange={(string, textSpacing) =>
-                setState(prevState => ({...prevState, textSpacing}))
-              }
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
         </Stack>
       </Grid>
     </DarkMode>

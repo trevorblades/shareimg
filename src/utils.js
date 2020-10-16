@@ -41,16 +41,22 @@ const [imageConfig, titleConfig, taglineConfig] = getShareImage({
   );
 
 const DEFAULT_TEXT_SPACING = titleConfig.y - (imageConfig.h - taglineConfig.y);
-export const DEFAULT_OPTIONS = {
+export const VALID_OPTIONS = {
   titleFont: titleConfig.font,
   titleFontSize: titleConfig.size,
   titleExtraConfig: titleConfig.extraConfig,
+  titleBottomOffset: titleConfig.y,
   taglineFont: taglineConfig.font,
   taglineFontSize: taglineConfig.size,
   taglineExtraConfig: taglineConfig.extraConfig,
+  taglineTopOffset: taglineConfig.y,
   textColor: titleConfig.color,
   imageWidth: imageConfig.w,
-  imageHeight: imageConfig.h,
+  imageHeight: imageConfig.h
+};
+
+export const DEFAULT_OPTIONS = {
+  ...VALID_OPTIONS,
   textY: (taglineConfig.y - DEFAULT_TEXT_SPACING / 2) / imageConfig.h,
   textLeft: titleConfig.x,
   textRight: imageConfig.w - titleConfig.w - titleConfig.x,
