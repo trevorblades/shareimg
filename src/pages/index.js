@@ -24,7 +24,13 @@ import {
   Stack,
   Tooltip
 } from '@chakra-ui/core';
-import {DEFAULT_OPTIONS} from '../utils';
+import {
+  DEFAULT_OPTIONS,
+  IMAGE_OPTIONS,
+  LAYOUT_OPTIONS,
+  TAGLINE_OPTIONS,
+  TITLE_OPTIONS
+} from '../utils';
 import {FaGithub} from 'react-icons/fa';
 import {Helmet} from 'react-helmet';
 
@@ -157,7 +163,12 @@ export default function App() {
           overflow="auto"
           bg="gray.900"
         >
-          <SettingsGroup label="Title">
+          <SettingsGroup
+            label="Title"
+            onReset={() =>
+              setState(prevState => ({...prevState, ...TITLE_OPTIONS}))
+            }
+          >
             <TextSettings
               placeholder="Title text"
               name="title"
@@ -166,7 +177,12 @@ export default function App() {
               setState={setState}
             />
           </SettingsGroup>
-          <SettingsGroup label="Tagline">
+          <SettingsGroup
+            label="Tagline"
+            onReset={() =>
+              setState(prevState => ({...prevState, ...TAGLINE_OPTIONS}))
+            }
+          >
             <TextSettings
               placeholder="#tags or a short description"
               name="tagline"
@@ -175,7 +191,12 @@ export default function App() {
               setState={setState}
             />
           </SettingsGroup>
-          <SettingsGroup label="Image dimensions">
+          <SettingsGroup
+            label="Image dimensions"
+            onReset={() =>
+              setState(prevState => ({...prevState, ...IMAGE_OPTIONS}))
+            }
+          >
             <HStack spacing="4">
               <HStack as="label">
                 <span>Width</span>
@@ -211,7 +232,12 @@ export default function App() {
               </HStack>
             </HStack>
           </SettingsGroup>
-          <SettingsGroup label="Text layout">
+          <SettingsGroup
+            label="Text layout"
+            onReset={() =>
+              setState(prevState => ({...prevState, ...LAYOUT_OPTIONS}))
+            }
+          >
             <HStack spacing="4">
               <HStack as="label">
                 <span>Left</span>

@@ -1,19 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Heading, Stack} from '@chakra-ui/core';
+import {Flex, Heading, IconButton, Stack} from '@chakra-ui/core';
+import {MdRefresh} from 'react-icons/md';
 
-export default function SettingsGroup({label, children}) {
+export default function SettingsGroup({label, onReset, children}) {
   return (
     <Stack spacing="3">
-      <Heading
-        as="h6"
-        fontSize="sm"
-        textTransform="uppercase"
-        letterSpacing="wider"
-        lineHeight="tallest"
-      >
-        {label}
-      </Heading>
+      <Flex align="center">
+        <Heading
+          as="h6"
+          fontSize="sm"
+          textTransform="uppercase"
+          letterSpacing="wider"
+          lineHeight="tallest"
+        >
+          {label}
+        </Heading>
+        <IconButton
+          ml="auto"
+          borderRadius="full"
+          icon={<MdRefresh />}
+          size="xs"
+          fontSize="lg"
+          onClick={onReset}
+        />
+      </Flex>
       {children}
     </Stack>
   );
@@ -21,5 +32,6 @@ export default function SettingsGroup({label, children}) {
 
 SettingsGroup.propTypes = {
   label: PropTypes.string.isRequired,
+  onReset: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired
 };
