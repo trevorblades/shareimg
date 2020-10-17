@@ -36,6 +36,13 @@ export default function CodeSample({state}) {
                   ]
                 ];
               }
+              case 'textRight':
+                return [
+                  [
+                    'textAreaWidth',
+                    state.imageWidth - state.textLeftOffset - entry[1]
+                  ]
+                ];
               default:
                 return [entry];
             }

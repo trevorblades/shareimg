@@ -43,8 +43,8 @@ export default function App() {
   });
 
   const textBoxProps = {
-    w: state.imageWidth - state.textLeft - state.textRight,
-    left: state.textLeft
+    w: state.imageWidth - state.textLeftOffset - state.textRight,
+    left: state.textLeftOffset
   };
 
   function handleInputChange(event) {
@@ -235,7 +235,10 @@ export default function App() {
           <SettingsGroup
             label="Text layout"
             onReset={() =>
-              setState(prevState => ({...prevState, ...LAYOUT_OPTIONS}))
+              setState(prevState => ({
+                ...prevState,
+                ...LAYOUT_OPTIONS
+              }))
             }
           >
             <HStack spacing="4">
@@ -243,9 +246,9 @@ export default function App() {
                 <span>Left</span>
                 <NumberInput
                   size="sm"
-                  value={state.textLeft}
-                  onChange={(string, textLeft) =>
-                    setState(prevState => ({...prevState, textLeft}))
+                  value={state.textLeftOffset}
+                  onChange={(string, textLeftOffset) =>
+                    setState(prevState => ({...prevState, textLeftOffset}))
                   }
                 >
                   <NumberInputField />

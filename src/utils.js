@@ -65,12 +65,15 @@ export const VALID_OPTIONS = {
   ...IMAGE_OPTIONS,
   titleBottomOffset: titleConfig.y,
   taglineTopOffset: taglineConfig.y,
+  textLeftOffset: titleConfig.x,
+  textAreaWidth: titleConfig.w,
   textColor: titleConfig.color
 };
 
+const {textLeftOffset} = VALID_OPTIONS;
 export const LAYOUT_OPTIONS = {
+  textLeftOffset,
   textY: (taglineConfig.y - DEFAULT_TEXT_SPACING / 2) / imageConfig.h,
-  textLeft: titleConfig.x,
   textRight: imageConfig.w - titleConfig.w - titleConfig.x,
   textSpacing: DEFAULT_TEXT_SPACING
 };
