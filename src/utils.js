@@ -67,7 +67,8 @@ export const VALID_OPTIONS = {
   taglineTopOffset: taglineConfig.y,
   textLeftOffset: titleConfig.x,
   textAreaWidth: titleConfig.w,
-  textColor: titleConfig.color
+  textColor: titleConfig.color,
+  taglineColor: undefined
 };
 
 const {textLeftOffset} = VALID_OPTIONS;

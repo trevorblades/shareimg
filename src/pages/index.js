@@ -1,4 +1,5 @@
 import CodeSample from '../components/CodeSample';
+import ColorInput from '../components/ColorInput';
 import React, {useState} from 'react';
 import SettingsGroup from '../components/SettingsGroup';
 import TextBox from '../components/TextBox';
@@ -8,6 +9,7 @@ import {
   Button,
   ButtonGroup,
   Center,
+  Checkbox,
   DarkMode,
   Grid,
   HStack,
@@ -39,7 +41,8 @@ export default function App() {
   const [state, setState] = useState({
     ...DEFAULT_OPTIONS,
     title: 'This is a title',
-    tagline: 'Lorem ipsum dolor set amit'
+    tagline: 'Lorem ipsum dolor set amit',
+    useTitleColor: true
   });
 
   const textBoxProps = {
@@ -118,6 +121,7 @@ export default function App() {
                 {...textBoxProps}
                 name="tagline"
                 state={state}
+                color={'#' + state.taglineColor}
                 top={state.imageHeight * state.textY + state.textSpacing / 2}
               >
                 {state.tagline}
@@ -176,6 +180,9 @@ export default function App() {
               state={state}
               setState={setState}
             />
+            <HStack>
+              <ColorInput state={state} setState={setState} name="textColor" />
+            </HStack>
           </SettingsGroup>
           <SettingsGroup
             label="Tagline"
@@ -190,6 +197,28 @@ export default function App() {
               state={state}
               setState={setState}
             />
+            <HStack spacing="4">
+              <Checkbox
+                isChecked={state.useTitleColor}
+                onChange={event => {
+                  const useTitleColor = event.target.checked;
+                  setState(prevState => ({
+                    ...prevState,
+                    useTitleColor,
+                    taglineColor: useTitleColor ? undefined : state.textColor
+                  }));
+                }}
+              >
+                Use title color
+              </Checkbox>
+              {!state.useTitleColor && (
+                <ColorInput
+                  state={state}
+                  setState={setState}
+                  name="taglineColor"
+                />
+              )}
+            </HStack>
           </SettingsGroup>
           <SettingsGroup
             label="Image dimensions"
@@ -275,24 +304,26 @@ export default function App() {
                 </NumberInput>
               </HStack>
             </HStack>
-            <HStack>
-              <span>Y</span>
-              <Slider
-                colorScheme="purple"
-                focusThumbOnChange={false}
-                min={0}
-                max={1}
-                step={0.01}
-                value={state.textY}
-                onChange={textY =>
-                  setState(prevState => ({...prevState, textY}))
-                }
-              >
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
-                <SliderThumb />
-              </Slider>
+            <HStack spacing="4">
+              <HStack flexGrow="1" w="full">
+                <span>Y</span>
+                <Slider
+                  colorScheme="purple"
+                  focusThumbOnChange={false}
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  value={state.textY}
+                  onChange={textY =>
+                    setState(prevState => ({...prevState, textY}))
+                  }
+                >
+                  <SliderTrack>
+                    <SliderFilledTrack />
+                  </SliderTrack>
+                  <SliderThumb />
+                </Slider>
+              </HStack>
               <NumberInput
                 size="sm"
                 value={Math.round(state.textY * 100)}
