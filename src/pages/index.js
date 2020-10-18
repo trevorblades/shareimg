@@ -1,11 +1,11 @@
 import CodeSample from '../components/CodeSample';
 import ColorInput from '../components/ColorInput';
+import Preview from '../components/Preview';
 import React, {useState} from 'react';
 import SettingsGroup from '../components/SettingsGroup';
-import TextBox from '../components/TextBox';
 import TextSettings from '../components/TextSettings';
+import useDrop from 'react-use/lib/useDrop';
 import {
-  Box,
   Button,
   ButtonGroup,
   Center,
@@ -24,7 +24,8 @@ import {
   SliderThumb,
   SliderTrack,
   Stack,
-  Tooltip
+  Tooltip,
+  useTheme
 } from '@chakra-ui/core';
 import {
   DEFAULT_OPTIONS,
@@ -37,6 +38,7 @@ import {FaGithub} from 'react-icons/fa';
 import {Helmet} from 'react-helmet';
 
 export default function App() {
+  const {colors} = useTheme();
   const [preview, setPreview] = useState(true);
   const [state, setState] = useState({
     ...DEFAULT_OPTIONS,
@@ -45,10 +47,19 @@ export default function App() {
     useTitleColor: true
   });
 
-  const textBoxProps = {
-    w: state.imageWidth - state.textLeftOffset - state.textRight,
-    left: state.textLeftOffset
-  };
+  const [template, setTemplate] = useState(null);
+  useDrop({
+    onFiles: files => {
+      const image = files.find(({type}) => type.startsWith('image/'));
+      if (image) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setTemplate(reader.result);
+        };
+        reader.readAsDataURL(image);
+      }
+    }
+  });
 
   function handleInputChange(event) {
     const {name, value} = event.target;
@@ -91,42 +102,7 @@ export default function App() {
             />
           </Tooltip>
           {preview ? (
-            <Box
-              bg="white"
-              w={state.imageWidth}
-              h={state.imageHeight}
-              userSelect="none"
-              transform={[
-                'translate(-50%, -50%) scale(0.2)',
-                'translate(-50%, -50%) scale(0.25)',
-                'translate(-50%, -50%) scale(0.3)',
-                'translate(-50%, -50%) scale(0.5)',
-                'translate(-50%, -50%) scale(0.7)'
-              ]}
-              position="absolute"
-              top="50%"
-              left="50%"
-              color={'#' + state.textColor}
-            >
-              <TextBox
-                {...textBoxProps}
-                name="title"
-                state={state}
-                top={state.imageHeight * state.textY - state.textSpacing / 2}
-                transform="translateY(-100%)"
-              >
-                {state.title}
-              </TextBox>
-              <TextBox
-                {...textBoxProps}
-                name="tagline"
-                state={state}
-                color={'#' + state.taglineColor}
-                top={state.imageHeight * state.textY + state.textSpacing / 2}
-              >
-                {state.tagline}
-              </TextBox>
-            </Box>
+            <Preview state={state} template={template} />
           ) : (
             <CodeSample state={state} />
           )}
