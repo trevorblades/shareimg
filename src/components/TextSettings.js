@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {useEffect} from 'react';
+import WebFont from 'webfontloader';
+import {DEFAULT_OPTIONS} from '../utils';
 import {
   HStack,
   Input,
@@ -25,18 +27,31 @@ export default function TextSettings({state, setState, ...props}) {
       }
     `
   );
+
+  const fontKey = props.name + 'Font';
+  const font = state[fontKey];
+  useEffect(() => {
+    if (font !== DEFAULT_OPTIONS[fontKey]) {
+      WebFont.load({
+        google: {
+          families: [font]
+        }
+      });
+    }
+  }, [font, fontKey]);
+
   return (
     <>
       <Input value={state[props.name]} {...props} />
       <HStack>
         <Select
           size="sm"
-          value={state[props.name + 'Font']}
+          value={font}
           onChange={event => {
             const {value} = event.target;
             setState(prevState => ({
               ...prevState,
-              [props.name + 'Font']: value
+              [fontKey]: value
             }));
           }}
         >

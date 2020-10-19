@@ -24,8 +24,7 @@ import {
   SliderThumb,
   SliderTrack,
   Stack,
-  Tooltip,
-  useTheme
+  Tooltip
 } from '@chakra-ui/core';
 import {
   DEFAULT_OPTIONS,
@@ -38,7 +37,6 @@ import {FaGithub} from 'react-icons/fa';
 import {Helmet} from 'react-helmet';
 
 export default function App() {
-  const {colors} = useTheme();
   const [preview, setPreview] = useState(true);
   const [state, setState] = useState({
     ...DEFAULT_OPTIONS,
