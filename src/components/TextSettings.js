@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import WebFont from 'webfontloader';
 import {DEFAULT_OPTIONS} from '../utils';
 import {
   HStack,
@@ -32,6 +31,7 @@ export default function TextSettings({state, setState, ...props}) {
   const font = state[fontKey];
   useEffect(() => {
     if (font !== DEFAULT_OPTIONS[fontKey]) {
+      const WebFont = require('webfontloader');
       WebFont.load({
         google: {
           families: [font]
@@ -87,7 +87,6 @@ export default function TextSettings({state, setState, ...props}) {
             }));
           }}
         >
-          {/* TODO: add underscore to extraConfig option in code */}
           <option value="">Normal</option>
           <option value="bold">Bold</option>
           <option value="italic">Italic</option>

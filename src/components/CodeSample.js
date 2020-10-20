@@ -43,6 +43,9 @@ export default function CodeSample({state}) {
                     state.imageWidth - state.textLeftOffset - entry[1]
                   ]
                 ];
+              case 'titleExtraConfig':
+              case 'taglineExtraConig':
+                return [[entry[0], '_' + entry[1]]];
               default:
                 return [entry];
             }
