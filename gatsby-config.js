@@ -18,6 +18,14 @@ module.exports = {
         name: 'webfont',
         entityLevel: 'items'
       }
+    },
+    {
+      resolve: 'gatsby-plugin-mdx',
+      options: {
+        defaultLayouts: {
+          default: require.resolve('./src/components/App')
+        }
+      }
     }
   ]
 };

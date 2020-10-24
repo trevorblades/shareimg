@@ -12,8 +12,11 @@
   "dependencies": {
     "@chakra-ui/core": "^1.0.0-rc.5",
     "@jlengstorf/get-share-image": "^0.7.1",
-    "gatsby": "^2.24.77",
+    "@mdx-js/mdx": "^1.6.19",
+    "@mdx-js/react": "^1.6.19",
+    "gatsby": "^2.24.85",
     "gatsby-plugin-chakra-ui": "^1.0.0-rc.5",
+    "gatsby-plugin-mdx": "^1.2.51",
     "gatsby-plugin-react-helmet": "^3.3.14",
     "gatsby-source-apiserver": "^2.1.7",
     "outdent": "^0.7.1",

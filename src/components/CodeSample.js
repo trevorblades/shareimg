@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import React, {useMemo} from 'react';
+import React, {createContext, useContext, useMemo} from 'react';
 import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
 import nightOwl from 'react-syntax-highlighter/dist/esm/styles/hljs/night-owl';
 import {Box, IconButton, Tooltip, useClipboard} from '@chakra-ui/core';
@@ -7,9 +6,12 @@ import {DEFAULT_OPTIONS, VALID_OPTIONS} from '../utils';
 import {Light as SyntaxHighlighter} from 'react-syntax-highlighter';
 import {outdent} from 'outdent';
 
+export const AppContext = createContext();
+
 SyntaxHighlighter.registerLanguage('javascript', js);
 
-export default function CodeSample({state}) {
+export default function CodeSample() {
+  const state = useContext(AppContext);
   const code = useMemo(
     () => outdent`
       import getShareImage from '@jlengstorf/get-share-image';
@@ -20,9 +22,10 @@ export default function CodeSample({state}) {
         cloudName: 'mycloudname',
         imagePublicID: 'my-template-image',${Object.entries(state)
           .flatMap(entry => {
-            switch (entry[0]) {
+            const [key, value] = entry;
+            switch (key) {
               case 'textY': {
-                const offset = Math.round(state.imageHeight * entry[1]);
+                const offset = Math.round(state.imageHeight * value);
                 return [
                   [
                     'titleBottomOffset',
@@ -40,12 +43,12 @@ export default function CodeSample({state}) {
                 return [
                   [
                     'textAreaWidth',
-                    state.imageWidth - state.textLeftOffset - entry[1]
+                    state.imageWidth - state.textLeftOffset - value
                   ]
                 ];
               case 'titleExtraConfig':
-              case 'taglineExtraConig':
-                return [[entry[0], '_' + entry[1]]];
+              case 'taglineExtraConfig':
+                return value ? [[key, '_' + value]] : [];
               default:
                 return [entry];
             }
@@ -84,7 +87,3 @@ export default function CodeSample({state}) {
     </Box>
   );
 }
-
-CodeSample.propTypes = {
-  state: PropTypes.object.isRequired
-};
