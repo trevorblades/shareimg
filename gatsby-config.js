@@ -24,7 +24,8 @@ module.exports = {
       options: {
         defaultLayouts: {
           default: require.resolve('./src/components/App')
-        }
+        },
+        rehypePlugins: [require('@mapbox/rehype-prism')]
       }
     }
   ]

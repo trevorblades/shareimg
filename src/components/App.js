@@ -1,3 +1,4 @@
+import 'prism-theme-night-owl';
 import CodeSample, {AppContext} from './CodeSample';
 import Preview from './Preview';
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ import {
   Code,
   DarkMode,
   Grid,
+  HStack,
   Heading,
   IconButton,
   ListItem,
@@ -27,13 +29,22 @@ import {MDXProvider} from '@mdx-js/react';
 
 const components = {
   h1(props) {
-    return <Heading fontSize="4xl" {...props} />;
+    return <Heading fontSize="6xl" {...props} />;
   },
   h2(props) {
-    return <Heading fontSize="3xl" {...props} />;
+    return <Heading fontSize="5xl" {...props} />;
   },
   h3(props) {
+    return <Heading fontSize="4xl" {...props} />;
+  },
+  h4(props) {
+    return <Heading fontSize="3xl" {...props} />;
+  },
+  h5(props) {
     return <Heading fontSize="2xl" {...props} />;
+  },
+  h6(props) {
+    return <Heading fontSize="xl" {...props} />;
   },
   p: Text,
   inlineCode: Code,
@@ -79,33 +90,49 @@ export default function App({children}) {
         bg="black"
         color="gray.50"
         templateColumns={{
-          md: '2fr 1fr',
-          lg: '3fr 1fr'
+          md: '1fr 250px',
+          lg: '1fr 300px'
         }}
       >
         <Box position="relative" overflow="hidden">
-          <Tooltip label="View on GitHub" placement="right">
-            <IconButton
-              as="a"
-              href="https://github.com/trevorblades/shareimg"
-              target="_blank"
-              icon={<FaGithub />}
-              position="absolute"
-              bottom="3"
-              left="3"
-              fontSize="3xl"
-              borderRadius="full"
-              variant="ghost"
-            />
-          </Tooltip>
+          <HStack spacing="3" position="absolute" bottom="3" left="3">
+            <ButtonGroup size="sm" isAttached>
+              <Button
+                leftIcon={<span>🌮</span>}
+                colorScheme={preview ? 'purple' : 'gray'}
+                onClick={() => setPreview(true)}
+              >
+                Preview
+              </Button>
+              <Button
+                leftIcon={<span>💻</span>}
+                colorScheme={!preview ? 'purple' : 'gray'}
+                onClick={() => setPreview(false)}
+              >
+                Code
+              </Button>
+            </ButtonGroup>
+            <Tooltip label="View on GitHub" placement="right">
+              <IconButton
+                as="a"
+                href="https://github.com/trevorblades/shareimg"
+                target="_blank"
+                icon={<FaGithub />}
+                fontSize="3xl"
+                size="sm"
+                borderRadius="full"
+                variant="ghost"
+              />
+            </Tooltip>
+          </HStack>
           {preview ? (
             <Preview state={state} template={template} />
           ) : (
-            <Box bg="gray.800" h="full">
-              <Box p="6" maxW="container.md">
+            <Box bg="gray.800" h="full" overflow="auto">
+              <Box px="8" pt="10" pb="20" maxW="container.md">
                 <AppContext.Provider value={state}>
                   <MDXProvider components={components}>
-                    <Stack spacing="4" shouldWrapChildren>
+                    <Stack spacing="5" shouldWrapChildren>
                       {children}
                     </Stack>
                   </MDXProvider>
@@ -113,28 +140,6 @@ export default function App({children}) {
               </Box>
             </Box>
           )}
-          <ButtonGroup
-            isAttached
-            position="absolute"
-            bottom="3"
-            right="3"
-            bg="gray.700"
-          >
-            <Button
-              leftIcon={<span>🌮</span>}
-              colorScheme={preview ? 'purple' : 'gray'}
-              onClick={() => setPreview(true)}
-            >
-              Preview
-            </Button>
-            <Button
-              leftIcon={<span>💻</span>}
-              colorScheme={!preview ? 'purple' : 'gray'}
-              onClick={() => setPreview(false)}
-            >
-              Code
-            </Button>
-          </ButtonGroup>
         </Box>
         <Sidebar state={state} setState={setState} />
       </Grid>

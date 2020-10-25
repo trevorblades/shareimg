@@ -24,7 +24,7 @@ import {
   TITLE_OPTIONS
 } from '../utils';
 
-export default function Sidebar({state, setState}) {
+export default function Sidebar({children, state, setState}) {
   function handleInputChange(event) {
     const {name, value} = event.target;
     setState(prevState => ({
@@ -41,6 +41,7 @@ export default function Sidebar({state, setState}) {
       overflow="auto"
       bg="gray.900"
     >
+      {children}
       <SettingsGroup
         label="Title"
         onReset={() =>
@@ -231,6 +232,7 @@ export default function Sidebar({state, setState}) {
 }
 
 Sidebar.propTypes = {
+  children: PropTypes.node.isRequired,
   state: PropTypes.object.isRequired,
   setState: PropTypes.func.isRequired
 };

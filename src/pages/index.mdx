@@ -1,7 +1,32 @@
-## How to use this
+# How to use this
 
 1. Upload your template image
 1. Configure title and tagline
 1. Use in your app
 
 <CodeSample />
+
+## React
+
+First, install `react-helmet`. If you're using Gatsby, install `gatsby-plugin-react-helmet` as well.
+
+```jsx
+import React from 'react';
+import getShareImage from '@jlengstorf/get-share-image';
+
+export default function App({frontmatter}) {
+  const {title, description: tagline} = frontmatter;
+  const shareImage = getShareImage({
+    title,
+    tagline,
+    ...
+  });
+  return (
+    <>
+      <Helmet title={title}>
+        <meta name="twitter:image" content={shareImage}>
+      </Helmet>
+    </>
+  )
+}
+```

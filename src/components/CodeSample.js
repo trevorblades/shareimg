@@ -1,17 +1,15 @@
+import Highlight, {defaultProps} from 'prism-react-renderer';
 import React, {createContext, useContext, useMemo} from 'react';
-import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
-import nightOwl from 'react-syntax-highlighter/dist/esm/styles/hljs/night-owl';
+import nightOwl from 'prism-react-renderer/themes/nightOwl';
 import {Box, IconButton, Tooltip, useClipboard} from '@chakra-ui/core';
 import {DEFAULT_OPTIONS, VALID_OPTIONS} from '../utils';
-import {Light as SyntaxHighlighter} from 'react-syntax-highlighter';
 import {outdent} from 'outdent';
 
 export const AppContext = createContext();
 
-SyntaxHighlighter.registerLanguage('javascript', js);
-
 export default function CodeSample() {
   const state = useContext(AppContext);
+  const {hasCopied, onCopy} = useClipboard(code);
   const code = useMemo(
     () => outdent`
       import getShareImage from '@jlengstorf/get-share-image';
@@ -66,13 +64,26 @@ export default function CodeSample() {
     `,
     [state]
   );
-
-  const {hasCopied, onCopy} = useClipboard(code);
   return (
     <Box position="relative">
-      <SyntaxHighlighter language="javascript" style={nightOwl}>
-        {code}
-      </SyntaxHighlighter>
+      <Highlight
+        {...defaultProps}
+        language="javascript"
+        code={code}
+        theme={nightOwl}
+      >
+        {({className, style, tokens, getLineProps, getTokenProps}) => (
+          <pre className={className} style={{...style, padding: '20px'}}>
+            {tokens.map((line, i) => (
+              <div key={i} {...getLineProps({line, key: i})}>
+                {line.map((token, key) => (
+                  <span key={key} {...getTokenProps({token, key})} />
+                ))}
+              </div>
+            ))}
+          </pre>
+        )}
+      </Highlight>
       <Tooltip placement="left" label="Copy to clipboard">
         <IconButton
           textAlign="center"
